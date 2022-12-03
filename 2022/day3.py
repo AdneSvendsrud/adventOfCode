@@ -1,8 +1,10 @@
-
+'''
+Part 1 of the task was to find the item stored in each of the two halves (compartments) of all elf's rucksacks
+Part 2 of the task was to find out the authenticity badge for each group of elves (size 3), which was their shared item
+'''
 data = []
 itemsFound = {}
 sumPartOne = 0
-
 
 groupItems = {}
 sumPartTwo = 0
@@ -20,10 +22,10 @@ with open('data/day3') as file:
 
 
 # Part 1
-for idx, i in enumerate(data):
-    splitAt = len(i) // 2
-    firstHalf = i[:splitAt]
-    secondHalf = i[splitAt:]
+for rucksack in data:
+    splitAt = len(rucksack) // 2
+    firstHalf = rucksack[:splitAt]
+    secondHalf = rucksack[splitAt:]
 
     for item in secondHalf:
         if item in firstHalf:
@@ -35,23 +37,11 @@ for key, value in itemsFound.items():
         sumPartOne += chars.index(key) + 1
 
 # Part 2
-for i in range(0, len(data), 3):
-    amountItems = {}
-    for j in data[i]:
-        if j not in amountItems.keys():
-            amountItems[j] = 1
-
-    for j in data[i+1]:
-        # if the item is not shared amountitems[j] raises a KeyError
-        if j in amountItems.keys():
-            if amountItems[j] < 2:
-                amountItems[j] += 1
-
-    for j in data[i+2]:
-        if j in amountItems.keys():
-            if amountItems[j] == 2:
-                groupItems[j] += 1
-                break
+for index in range(0, len(data), 3):
+    for j in data[index]:
+        if j in data[index+1] and j in data[index+2]:
+            groupItems[j] += 1
+            break
 
 for key, value in groupItems.items():
     for _ in range(value):
